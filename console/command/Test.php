@@ -94,6 +94,19 @@ class Test extends \lithium\console\Command {
 				}
 				$self->out($report->render('stats', $report->stats() + compact('filters')));
 				return $report;
+			},
+			'xml' => function($runner, $path) use ($self) {
+				$report = $runner();
+
+				if ($results = $report->filters()) {
+					$filters = array();
+
+					foreach ($results as $filter => $options) {
+						$filters[$options['name']] = $report->results['filters'][$filter];
+					}
+				}
+				$self->out($report->render('stats', $report->stats() + compact('filters')));
+				return $report;
 			}
 		);
 	}
